@@ -27,8 +27,8 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 		const publicKey = await importJWK(keys[0], keys[0].alg ?? 'ES256');
 
 		const { payload } = await jwtVerify(token, publicKey, {
-			issuer: 'https://lemontv.com',
-			audience: 'https://lemonade.strinova.win'
+			issuer: 'https://lemontv.win',
+			audience: 'https://slice.lemontv.win'
 		});
 
 		event.locals.user = {

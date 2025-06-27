@@ -13,8 +13,8 @@ export async function validateSessionToken(token: string) {
 	const publicKey = await importJWK(jwk, 'ES256');
 
 	const { payload } = await jwtVerify(token, publicKey, {
-		issuer: 'https://lemontv.com',
-		audience: 'https://lemonade.strinova.win'
+		issuer: 'https://lemontv.win',
+		audience: 'https://slice.lemontv.win'
 	});
 
 	if (typeof payload.sub !== 'string') throw new Error('Missing sub in token');
