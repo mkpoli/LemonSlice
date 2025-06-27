@@ -13,6 +13,7 @@
 		}
 	},
 	"vars": {
+		"LEMON_AUTH_SERVER_ENDPOINT": "https://lemontv.win/login/jwt",
 		"LEMON_JWT_PUBLIC_KEY_PATH": "https://lemontv.win/.well-known/jwks.json"
 	}
 }

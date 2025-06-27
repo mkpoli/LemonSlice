@@ -20,12 +20,7 @@
 				<p class="subtitle">Personal stats tracker and replay analyzer for Strinova</p>
 			</div>
 			{#if !data.user}
-				<a
-					href="https://lemontv.win/login/jwt?redirect_uri=https://slice.lemontv.win/auth/callback&next=/"
-					class="login-button"
-				>
-					Login with LemonTV
-				</a>
+				<a href={data.authURL} class="login-button">Login with LemonTV</a>
 			{:else}
 				<p>Logged in as {data.user.username}</p>
 			{/if}
