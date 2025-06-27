@@ -12,6 +12,9 @@
 <div class="container">
 	<header class="header">
 		<div class="header-content">
+			<div class="logo">
+				<img src="/favicon-96x96.png" alt="LemonSlice Logo" />
+			</div>
 			<div class="title-section">
 				<h1 class="title">LemonSlice</h1>
 				<p class="subtitle">Personal stats tracker and replay analyzer for Strinova</p>
@@ -96,20 +99,32 @@
 		gap: 1rem;
 	}
 
+	.logo {
+		flex: 0 0 auto;
+		display: flex;
+		align-items: center;
+	}
+
+	.logo img {
+		width: 80px;
+		height: 80px;
+		border-radius: 8px;
+	}
+
 	.title-section {
 		flex: 1;
 		text-align: left;
 	}
 
 	.title {
-		font-size: 3rem;
+		font-size: 2rem;
 		font-weight: 700;
-		margin: 0 0 0.5rem 0;
+		margin: 0;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
 	.subtitle {
-		font-size: 1.125rem;
+		font-size: 1rem;
 		margin: 0;
 		opacity: 0.8;
 		font-weight: 300;
@@ -223,6 +238,10 @@
 			flex-direction: column;
 			text-align: center;
 			gap: 1.5rem;
+		}
+
+		.logo {
+			text-align: center;
 		}
 
 		.title-section {
