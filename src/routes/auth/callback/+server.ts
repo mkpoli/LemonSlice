@@ -24,7 +24,7 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	try {
 		const result = await jwtVerify(token, publicKey, {
 			issuer: 'https://lemontv.com',
-			audience: 'https://lemonade.strinova.win'
+			audience: 'https://slice.lemontv.win'
 		});
 		payload = result.payload;
 	} catch (e) {
