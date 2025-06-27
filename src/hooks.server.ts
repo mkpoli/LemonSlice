@@ -13,24 +13,23 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 	});
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-	const sessionToken = event.cookies.get(auth.sessionCookieName);
-
-	if (!sessionToken) {
+	const token = event.cookies.get(auth.sessionCookieName);
+	if (!token) {
 		event.locals.user = null;
 		event.locals.session = null;
 		return resolve(event);
 	}
 
-	const { session, user } = await auth.validateSessionToken(sessionToken);
-
-	if (session) {
-		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-	} else {
+	try {
+		const { session, user } = await auth.validateSessionToken(token);
+		event.locals.user = user;
+		event.locals.session = session;
+	} catch {
+		event.locals.user = null;
+		event.locals.session = null;
 		auth.deleteSessionTokenCookie(event);
 	}
 
-	event.locals.user = user;
-	event.locals.session = session;
 	return resolve(event);
 };
 

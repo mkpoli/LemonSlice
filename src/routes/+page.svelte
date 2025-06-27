@@ -1,15 +1,35 @@
 <script lang="ts">
 	import FileUploader from '$lib/components/FileUploader.svelte';
 	import ReplayDetails from '$lib/components/ReplayDetails.svelte';
+	import type { PageProps } from './$types';
 
-	let uploadedFiles: File[] = [];
-	let errorMsg = '';
+	let uploadedFiles: File[] = $state([]);
+	let errorMsg = $state('');
+
+	let { data }: PageProps = $props();
+
+	function handleLogin() {
+		const authUrl = new URL('https://lemontv.win/login/jwt');
+		authUrl.searchParams.set('redirect_uri', 'https://slice.lemontv.win/auth/callback');
+		authUrl.searchParams.set('next', '/');
+
+		window.location.href = authUrl.toString();
+	}
 </script>
 
 <div class="container">
 	<header class="header">
-		<h1 class="title">LemonSlice</h1>
-		<p class="subtitle">Personal stats tracker and replay analyzer for Strinova</p>
+		<div class="header-content">
+			<div class="title-section">
+				<h1 class="title">LemonSlice</h1>
+				<p class="subtitle">Personal stats tracker and replay analyzer for Strinova</p>
+			</div>
+			{#if !data.user}
+				<button class="login-button" onclick={handleLogin}> Login with LemonTV </button>
+			{:else}
+				<p>Logged in as {data.user.username}</p>
+			{/if}
+		</div>
 	</header>
 
 	<main class="main">
@@ -71,6 +91,19 @@
 		color: #78350f;
 	}
 
+	.header-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.title-section {
+		flex: 1;
+		text-align: left;
+	}
+
 	.title {
 		font-size: 3rem;
 		font-weight: 700;
@@ -83,6 +116,31 @@
 		margin: 0;
 		opacity: 0.8;
 		font-weight: 300;
+	}
+
+	.login-button {
+		background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+		color: #78350f;
+		border: none;
+		border-radius: 8px;
+		padding: 0.75rem 1.5rem;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		white-space: nowrap;
+	}
+
+	.login-button:hover {
+		background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.login-button:active {
+		transform: translateY(0);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
 	.main {
@@ -164,8 +222,23 @@
 			padding: 1rem;
 		}
 
+		.header-content {
+			flex-direction: column;
+			text-align: center;
+			gap: 1.5rem;
+		}
+
+		.title-section {
+			text-align: center;
+		}
+
 		.title {
 			font-size: 2.5rem;
+		}
+
+		.login-button {
+			width: 100%;
+			max-width: 200px;
 		}
 
 		.main {
