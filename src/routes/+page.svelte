@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FileUploader from '$lib/components/FileUploader.svelte';
+	import ReplayDetails from '$lib/components/ReplayDetails.svelte';
 
 	let uploadedFiles: File[] = [];
 	let errorMsg = '';
@@ -46,6 +47,11 @@
 					{/each}
 				</div>
 			</section>
+
+			<!-- Replay Details for each file -->
+			{#each uploadedFiles as file}
+				<ReplayDetails {file} />
+			{/each}
 		{/if}
 	</main>
 </div>
