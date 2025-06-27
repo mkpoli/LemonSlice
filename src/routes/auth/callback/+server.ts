@@ -33,10 +33,19 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	}
 
 	const existingUser = await db.query.user.findFirst({ where: eq(userTable.id, userId) });
-	if (!existingUser) {
+	const existingUserByUsername = await db.query.user.findFirst({
+		where: eq(userTable.username, username)
+	});
+
+	if (!existingUser && !existingUserByUsername) {
+		// Create new user if neither ID nor username exists
 		await db.insert(userTable).values({ id: userId, username });
-	} else if (existingUser.username !== username) {
+	} else if (existingUser && existingUser.username !== username) {
+		// Update existing user's username if ID exists but username changed
 		await db.update(userTable).set({ username }).where(eq(userTable.id, userId));
+	} else if (!existingUser && existingUserByUsername) {
+		// Update existing user's ID if username exists but ID doesn't match
+		await db.update(userTable).set({ id: userId }).where(eq(userTable.username, username));
 	}
 
 	const exp = typeof payload.exp === 'number' ? payload.exp : Math.floor(Date.now() / 1000) + 86400;
