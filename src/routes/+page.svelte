@@ -69,6 +69,48 @@
 			{/each}
 		{/if}
 	</main>
+
+	<footer class="footer">
+		<div class="footer-content">
+			<div class="footer-links">
+				<a
+					href="https://lemontv.win/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="footer-link"
+				>
+					LemonTV
+				</a>
+				<a
+					href="https://lemonade.strinova.win/"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="footer-link"
+				>
+					Lemonade
+				</a>
+				<a
+					href="https://github.com/mkpoli/LemonSlice"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="footer-link"
+				>
+					GitHub
+				</a>
+				<a
+					href="https://discord.gg/mY8DMatXM4"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="footer-link"
+				>
+					Discord
+				</a>
+			</div>
+			<div class="footer-text">
+				<p>&copy; 2025 LemonTV. Made with ❤️ for the Strinova community.</p>
+			</div>
+		</div>
+	</footer>
 </div>
 
 <style>
@@ -260,6 +302,103 @@
 			flex-direction: column;
 			align-items: flex-start;
 			gap: 0.25rem;
+		}
+	}
+
+	.footer {
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 2px solid #fde68a;
+		text-align: center;
+		color: #78350f;
+	}
+
+	.footer-content {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 2rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.footer-link {
+		color: #78350f;
+		text-decoration: none;
+		font-weight: 600;
+		padding: 0.5rem 1rem;
+		border-radius: 6px;
+		transition: all 0.2s ease;
+		background: rgba(251, 191, 36, 0.1);
+		border: 1px solid transparent;
+	}
+
+	.footer-link:hover {
+		background: rgba(251, 191, 36, 0.2);
+		border-color: #fbbf24;
+		transform: translateY(-1px);
+		box-shadow: 0 2px 4px rgba(251, 191, 36, 0.2);
+	}
+
+	.footer-text {
+		font-size: 0.875rem;
+		opacity: 0.8;
+	}
+
+	.footer-text p {
+		margin: 0;
+	}
+
+	@media (max-width: 768px) {
+		.container {
+			padding: 1rem;
+		}
+
+		.header-content {
+			flex-direction: column;
+			text-align: center;
+			gap: 1.5rem;
+		}
+
+		.logo {
+			text-align: center;
+		}
+
+		.title-section {
+			text-align: center;
+		}
+
+		.title {
+			font-size: 2.5rem;
+		}
+
+		.login-button {
+			width: 100%;
+			max-width: 200px;
+		}
+
+		.main {
+			padding: 1.5rem;
+		}
+
+		.file-item {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.25rem;
+		}
+
+		.footer-links {
+			gap: 1rem;
+		}
+
+		.footer-link {
+			padding: 0.75rem 1rem;
+			font-size: 0.875rem;
 		}
 	}
 </style>
