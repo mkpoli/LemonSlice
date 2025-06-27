@@ -7,14 +7,6 @@
 	let errorMsg = $state('');
 
 	let { data }: PageProps = $props();
-
-	function handleLogin() {
-		const authUrl = new URL('https://lemontv.win/login/jwt');
-		authUrl.searchParams.set('redirect_uri', 'https://slice.lemontv.win/auth/callback');
-		authUrl.searchParams.set('next', '/');
-
-		window.location.href = authUrl.toString();
-	}
 </script>
 
 <div class="container">
@@ -25,7 +17,12 @@
 				<p class="subtitle">Personal stats tracker and replay analyzer for Strinova</p>
 			</div>
 			{#if !data.user}
-				<button class="login-button" onclick={handleLogin}> Login with LemonTV </button>
+				<a
+					href="https://lemontv.win/login/jwt?redirect_uri=https://slice.lemontv.win/auth/callback&next=/"
+					class="login-button"
+				>
+					Login with LemonTV
+				</a>
 			{:else}
 				<p>Logged in as {data.user.username}</p>
 			{/if}
