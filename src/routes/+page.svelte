@@ -62,26 +62,26 @@
 		margin: 0 auto;
 		padding: 2rem;
 		min-height: 100vh;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fbbf24 100%);
 	}
 
 	.header {
 		text-align: center;
 		margin-bottom: 3rem;
-		color: white;
+		color: #78350f;
 	}
 
 	.title {
 		font-size: 3rem;
 		font-weight: 700;
 		margin: 0 0 0.5rem 0;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	}
 
 	.subtitle {
 		font-size: 1.125rem;
 		margin: 0;
-		opacity: 0.9;
+		opacity: 0.8;
 		font-weight: 300;
 	}
 
@@ -89,7 +89,8 @@
 		background: white;
 		border-radius: 16px;
 		padding: 2rem;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		border: 2px solid #fde68a;
 	}
 
 	.upload-section {
@@ -99,26 +100,26 @@
 	.section-title {
 		font-size: 1.5rem;
 		font-weight: 600;
-		color: #1f2937;
+		color: #78350f;
 		margin: 0 0 1rem 0;
 	}
 
 	.error-message {
-		background: #fef2f2;
-		border: 1px solid #fecaca;
+		background: #fef3c7;
+		border: 1px solid #fbbf24;
 		border-radius: 8px;
 		padding: 1rem;
 		margin-bottom: 1.5rem;
 	}
 
 	.error-message p {
-		color: #dc2626;
+		color: #92400e;
 		margin: 0;
 		font-weight: 500;
 	}
 
 	.files-section {
-		border-top: 1px solid #e5e7eb;
+		border-top: 1px solid #fde68a;
 		padding-top: 1.5rem;
 	}
 
@@ -132,26 +133,28 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		background: #f9fafb;
-		border: 1px solid #e5e7eb;
+		background: #fef3c7;
+		border: 1px solid #fde68a;
 		border-radius: 8px;
 		padding: 0.75rem 1rem;
 		transition: all 0.2s ease;
 	}
 
 	.file-item:hover {
-		background: #f3f4f6;
-		border-color: #d1d5db;
+		background: #fef9e7;
+		border-color: #fbbf24;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(251, 191, 36, 0.15);
 	}
 
 	.file-name {
 		font-weight: 500;
-		color: #374151;
+		color: #78350f;
 		flex: 1;
 	}
 
 	.file-size {
-		color: #6b7280;
+		color: #a16207;
 		font-size: 0.875rem;
 		font-weight: 400;
 	}

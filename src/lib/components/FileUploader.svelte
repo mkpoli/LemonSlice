@@ -153,9 +153,9 @@
 		position: relative;
 		width: 100%;
 		min-height: 200px;
-		border: 2px dashed #d1d5db;
+		border: 2px dashed #fde68a;
 		border-radius: 12px;
-		background-color: #f9fafb;
+		background-color: #fef9e7;
 		transition: all 0.2s ease-in-out;
 		cursor: pointer;
 		display: flex;
@@ -166,21 +166,22 @@
 	}
 
 	.file-uploader:hover:not(.disabled) {
-		border-color: #3b82f6;
-		background-color: #eff6ff;
+		border-color: #fbbf24;
+		background-color: #fef3c7;
+		transform: scale(1.02);
 	}
 
 	.file-uploader.drag-over {
-		border-color: #3b82f6;
-		background-color: #dbeafe;
+		border-color: #fbbf24;
+		background-color: #fef9e7;
 		transform: scale(1.02);
 	}
 
 	.file-uploader.disabled {
 		opacity: 0.6;
 		cursor: not-allowed;
-		border-color: #e5e7eb;
-		background-color: #f3f4f6;
+		border-color: #fde68a;
+		background-color: #fef9e7;
 	}
 
 	.upload-content {
@@ -195,7 +196,7 @@
 
 	.upload-icon {
 		margin-bottom: 1rem;
-		color: #6b7280;
+		color: #a16207;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -203,7 +204,7 @@
 
 	.file-uploader:hover:not(.disabled) .upload-icon,
 	.file-uploader.drag-over .upload-icon {
-		color: #3b82f6;
+		color: #78350f;
 	}
 
 	.upload-text {
@@ -213,23 +214,23 @@
 	.primary-text {
 		font-size: 1.125rem;
 		font-weight: 600;
-		color: #374151;
+		color: #78350f;
 		margin: 0 0 0.5rem 0;
 	}
 
 	.secondary-text {
 		font-size: 0.875rem;
-		color: #6b7280;
+		color: #a16207;
 		margin: 0;
 	}
 
 	.file-uploader:hover:not(.disabled) .primary-text {
-		color: #1f2937;
+		color: #92400e;
 	}
 
 	.file-uploader:focus {
 		outline: none;
-		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+		box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
 	}
 
 	/* Animation for drag over state */
