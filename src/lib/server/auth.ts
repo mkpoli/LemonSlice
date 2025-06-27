@@ -36,7 +36,6 @@ export async function validateSessionToken(token: string) {
 	}
 
 	return {
-		session: payload,
 		user: {
 			id: userId,
 			username,

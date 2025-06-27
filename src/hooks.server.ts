@@ -1,7 +1,8 @@
 import { sequence } from '@sveltejs/kit/hooks';
-import * as auth from '$lib/server/auth';
 import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server';
+import { jwtVerify, importJWK } from 'jose';
+import { sessionCookieName } from '$lib/server/auth';
 
 const handleParaglide: Handle = ({ event, resolve }) =>
 	paraglideMiddleware(event.request, ({ request, locale }) => {
@@ -13,21 +14,32 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 	});
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-	const token = event.cookies.get(auth.sessionCookieName);
+	const token = event.cookies.get(sessionCookieName);
+
 	if (!token) {
 		event.locals.user = null;
-		event.locals.session = null;
 		return resolve(event);
 	}
 
 	try {
-		const { session, user } = await auth.validateSessionToken(token);
-		event.locals.user = user;
-		event.locals.session = session;
+		const res = await fetch('https://lemontv.win/.well-known/jwks.json');
+		const { keys } = await res.json();
+		const publicKey = await importJWK(keys[0], keys[0].alg ?? 'ES256');
+
+		const { payload } = await jwtVerify(token, publicKey, {
+			issuer: 'https://lemontv.com',
+			audience: 'https://lemonade.strinova.win'
+		});
+
+		event.locals.user = {
+			id: payload.sub,
+			username: payload.name,
+			email: payload.email,
+			roles: payload.roles
+		};
 	} catch {
 		event.locals.user = null;
-		event.locals.session = null;
-		auth.deleteSessionTokenCookie(event);
+		event.cookies.delete(sessionCookieName, { path: '/' });
 	}
 
 	return resolve(event);
