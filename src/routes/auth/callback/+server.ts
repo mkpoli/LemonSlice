@@ -1,20 +1,24 @@
 import { redirect, error, type RequestHandler } from '@sveltejs/kit';
 import { importJWK, jwtVerify } from 'jose';
-import { Buffer } from 'node:buffer';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { sessionCookieName } from '$lib/server/auth';
 
-export const GET: RequestHandler = async ({ url, cookies }) => {
+export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	const token = url.searchParams.get('token');
 	const next = url.searchParams.get('next') ?? '/';
 
 	if (!token) throw error(400, 'Missing token');
 
-	const jwkRaw = Buffer.from(process.env.LEMON_PUBLIC_JWK_BASE64!, 'base64url').toString('utf8');
-	const jwk = JSON.parse(jwkRaw);
-	const publicKey = await importJWK(jwk, 'ES256');
+	// Fetch from JWKS endpoint
+	const jwksResponse = await fetch('https://lemontv.win/.well-known/jwks.json');
+	if (!jwksResponse.ok) throw error(500, 'Failed to fetch LemonTV public key');
+	const { keys } = await jwksResponse.json();
+	const jwk = keys[0];
+	if (!jwk) throw error(500, 'No keys found in LemonTV JWKS');
+
+	const publicKey = await importJWK(jwk, jwk.alg ?? 'ES256');
 
 	let payload;
 	try {
@@ -41,8 +45,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		await db.update(userTable).set({ username }).where(eq(userTable.id, userId));
 	}
 
-	const exp =
-		typeof payload.exp === 'number' ? payload.exp : Math.floor(Date.now() / 1000) + 60 * 60 * 24;
+	const exp = typeof payload.exp === 'number' ? payload.exp : Math.floor(Date.now() / 1000) + 86400;
 	const maxAge = exp - Math.floor(Date.now() / 1000);
 
 	cookies.set(sessionCookieName, token, {
