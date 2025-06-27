@@ -2,7 +2,8 @@ import { sequence } from '@sveltejs/kit/hooks';
 import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server';
 import { jwtVerify, importJWK } from 'jose';
-import { sessionCookieName } from '$lib/server/auth';
+import { fetchPublicKey, sessionCookieName } from '$lib/server/auth';
+import { LEMON_JWT_PUBLIC_KEY_PATH } from '$env/static/private';
 
 const handleParaglide: Handle = ({ event, resolve }) =>
 	paraglideMiddleware(event.request, ({ request, locale }) => {
@@ -26,9 +27,7 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 
 	try {
 		console.info('[handleAuth] Fetching LemonTV JWKS...');
-		const res = await fetch('https://lemontv.win/.well-known/jwks.json');
-		const { keys } = await res.json();
-		const publicKey = await importJWK(keys[0], keys[0].alg ?? 'ES256');
+		const publicKey = await fetchPublicKey(new URL(LEMON_JWT_PUBLIC_KEY_PATH));
 
 		console.info('[handleAuth] Verifying JWT token...');
 		const { payload } = await jwtVerify(token, publicKey, {

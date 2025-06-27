@@ -1,5 +1,4 @@
 import { importJWK, jwtVerify } from 'jose';
-import { Buffer } from 'node:buffer';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
@@ -7,12 +6,20 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 export const sessionCookieName = 'auth-session';
 
+export async function fetchPublicKey(url: URL): Promise<CryptoKey | Uint8Array> {
+	const jwksResponse = await fetch(url);
+	if (!jwksResponse.ok) throw Error('Failed to fetch LemonTV public key');
+	const { keys } = await jwksResponse.json();
+	const jwk = keys[0];
+	if (!jwk) throw Error('No keys found in LemonTV JWKS');
+
+	return importJWK(jwk, jwk.alg ?? 'ES256');
+}
+
 export async function validateSessionToken(token: string) {
 	console.info('[auth] Validating session token...');
 
-	const jwkRaw = Buffer.from(process.env.LEMON_PUBLIC_JWK_BASE64!, 'base64url').toString('utf8');
-	const jwk = JSON.parse(jwkRaw);
-	const publicKey = await importJWK(jwk, 'ES256');
+	const publicKey = await fetchPublicKey(new URL('https://lemontv.win/.well-known/jwks.json'));
 
 	console.info('[auth] Verifying JWT with LemonTV public key...');
 

@@ -11,5 +11,8 @@
 		"logs": {
 			"enabled": true
 		}
+	},
+	"vars": {
+		"LEMON_JWT_PUBLIC_KEY_PATH": "https://lemontv.win/.well-known/jwks.json"
 	}
 }

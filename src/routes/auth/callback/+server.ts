@@ -3,7 +3,8 @@ import { importJWK, jwtVerify } from 'jose';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { sessionCookieName } from '$lib/server/auth';
+import { fetchPublicKey, sessionCookieName } from '$lib/server/auth';
+import { LEMON_JWT_PUBLIC_KEY_PATH } from '$env/static/private';
 
 export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	const token = url.searchParams.get('token');
@@ -12,14 +13,7 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	if (!token) throw error(400, 'Missing token');
 
 	// Fetch from JWKS endpoint
-	const jwksResponse = await fetch('https://lemontv.win/.well-known/jwks.json');
-	if (!jwksResponse.ok) throw error(500, 'Failed to fetch LemonTV public key');
-	const { keys } = await jwksResponse.json();
-	const jwk = keys[0];
-	if (!jwk) throw error(500, 'No keys found in LemonTV JWKS');
-
-	const publicKey = await importJWK(jwk, jwk.alg ?? 'ES256');
-
+	const publicKey = await fetchPublicKey(new URL(LEMON_JWT_PUBLIC_KEY_PATH));
 	let payload;
 	try {
 		const result = await jwtVerify(token, publicKey, {
