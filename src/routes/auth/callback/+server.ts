@@ -3,7 +3,7 @@ import { importJWK, jwtVerify } from 'jose';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { fetchPublicKey, sessionCookieName } from '$lib/server/auth';
+import { fetchPublicKey, sessionCookieName, JWT_ISSUER } from '$lib/server/auth';
 import { LEMON_JWT_PUBLIC_KEY_PATH } from '$env/static/private';
 
 export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
@@ -13,12 +13,12 @@ export const GET: RequestHandler = async ({ url, cookies, fetch }) => {
 	if (!token) throw error(400, 'Missing token');
 
 	// Fetch from JWKS endpoint
-	const publicKey = await fetchPublicKey(new URL(LEMON_JWT_PUBLIC_KEY_PATH));
+	const publicKey = await fetchPublicKey(new URL(LEMON_JWT_PUBLIC_KEY_PATH), fetch);
 	let payload;
 	try {
 		const result = await jwtVerify(token, publicKey, {
-			issuer: 'https://lemontv.com',
-			audience: 'https://slice.lemontv.win'
+			issuer: JWT_ISSUER,
+			audience: url.origin
 		});
 		payload = result.payload;
 	} catch (e) {
