@@ -1,6 +1,7 @@
 <script lang="ts">
 	import FileUploader from '$lib/components/FileUploader.svelte';
 	import ReplayDetails from '$lib/components/ReplayDetails.svelte';
+	import UserAvatar from '$lib/components/UserAvatar.svelte';
 	import type { PageProps } from './$types';
 
 	let uploadedFiles: File[] = $state([]);
@@ -22,7 +23,11 @@
 			{#if !data.user}
 				<a href={data.authURL} class="login-button">Login with LemonTV</a>
 			{:else}
-				<p>Logged in as {data.user.username}</p>
+				<p class="flex items-center gap-2">
+					Logged in as
+					<UserAvatar email={data.user.email} />
+					{data.user.username}
+				</p>
 			{/if}
 		</div>
 	</header>
